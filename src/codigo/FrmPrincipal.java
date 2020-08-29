@@ -6,14 +6,13 @@
 package codigo;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.Reader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 
 /**
  *
@@ -38,14 +37,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        txtEntrada = new javax.swing.JTextField();
         btnAnalizar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtResultado = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        txtEntrada.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
 
         btnAnalizar.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         btnAnalizar.setText("Analizar");
@@ -63,24 +59,18 @@ public class FrmPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(txtEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                .addComponent(btnAnalizar)
-                .addGap(32, 32, 32))
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
+                    .addComponent(btnAnalizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(33, 33, 33)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAnalizar))
+                .addComponent(btnAnalizar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(31, Short.MAX_VALUE))
@@ -96,23 +86,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
         //analizador lexico lee archivos fisicos de la computadora convertimos el textfield en 
         // documento de texto para analizarlo con el lexer
        
-        /*File archivo=new File("archivo.txt");
-        PrintWriter escribir;
-        try {
-            escribir = new PrintWriter(archivo);
-            escribir.print(txtEntrada.getText()); //objeto del textfield
-            escribir.close(); //lo que escribamos en el textfield se escribira en el documento archivo que se encontrara en donde se crea el proyecto
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        */
-        
+        JFileChooser chooser = new JFileChooser();
+        chooser.showOpenDialog(null);
         
         try {
             //utilizamos el analizador lexico
 
             //Reader lector= new BufferedReader(new FileReader("archivo.txt"));
-            Reader lector= new BufferedReader(new FileReader(txtEntrada.getText()));
+            Reader lector= new BufferedReader(new FileReader(chooser.getSelectedFile()));
             Lexer lexer = new Lexer(lector);//lector que vamos a crear
             String resultado =""; //resultado de toda la cadena que vamos a utilizar
             while (true) { //hasta que se analice el ultimo texto del archivo txt
@@ -128,16 +109,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     //lo que este declarado en la clase lexer
                     case ERROR: //utilizaremos las palabras declaradas en los tokens
                         resultado += lexer.lexeme +": "+"simbolo no definido\n";
-                        break;
-                    case Identificador:case Numero:case Reservadas: //colocamos todas en un solo identificador
-                        resultado += lexer.lexeme +": "+ tokens + "\n";//para sacar el token del archivo de texto y decir si es reservada o numero o identificador
-                        break;
-                        
-                    
+                        break;                    
                     default:
                         resultado+= lexer.lexeme +": "+tokens + "\n"; // es para los de mas tokens que no se usaron como multiplicacion ,division
                           break;
-                    
                 }
                 
             }
@@ -146,7 +121,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
         
     }//GEN-LAST:event_btnAnalizarActionPerformed
 
@@ -188,7 +162,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnalizar;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField txtEntrada;
     private javax.swing.JTextArea txtResultado;
     // End of variables declaration//GEN-END:variables
 }

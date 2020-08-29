@@ -10,17 +10,16 @@ package codigo;
  * @author Andres Realpe
  */
 public enum Tokens {
-    
- Reservadas,
-Igual,
-Suma,
-Resta,
-Multiplicacion,
-Division,
-Separador,
-Tipo_de_Dato,
-Identificador,
-Numero,
-Menor,
- ERROR
+    Reservadas,
+    Separador,
+    TipoDato,
+    Identificador,
+    Asignacion,
+    OperadorAritmetico,
+    OperadorAritmeticoIncremental,
+    OperadorAritmeticoCombinado,
+    OperadorRelacion,
+    OperadorLogico,
+    Numero,
+    ERROR
 }

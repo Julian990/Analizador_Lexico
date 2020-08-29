@@ -16,7 +16,7 @@ public class Principal {
     
     public static void main(String[] args) {
         
-        String ruta="C:/Users/Andres Realpe/Documents/NetBeansProjects/ANALIZADORLEXICO/src/codigo/Lexer.flex";
+        String ruta="I:/UTAP/COMPILADORES/ANALIZADORLEXICO/src/codigo/Lexer.flex";
         generarLexer(ruta);
     }
     public static void generarLexer (String ruta){
