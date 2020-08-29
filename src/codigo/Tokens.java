@@ -17,7 +17,10 @@ Suma,
 Resta,
 Multiplicacion,
 Division,
+Separador,
+Tipo_de_Dato,
 Identificador,
 Numero,
+Menor,
  ERROR
 }

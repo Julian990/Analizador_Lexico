@@ -117,6 +117,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
             String resultado =""; //resultado de toda la cadena que vamos a utilizar
             while (true) { //hasta que se analice el ultimo texto del archivo txt
                 Tokens tokens =lexer.yylex();
+                
                 if (tokens == null) { //por si no encuentra nada de tokens en el archivo
                     resultado +="FIN";//declara el ultimo token que se analizo
                     txtResultado.setText(resultado);//cadena de resultado
@@ -126,14 +127,17 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     //para cambiar estado en caso de que se encuentre palabra reservada,un numero , un identificador,un digito
                     //lo que este declarado en la clase lexer
                     case ERROR: //utilizaremos las palabras declaradas en los tokens
-                        resultado += "simbolo no definido\n";
+                        resultado += lexer.lexeme +": "+"simbolo no definido\n";
                         break;
                     case Identificador:case Numero:case Reservadas: //colocamos todas en un solo identificador
-                        resultado += lexer.lexeme + ": Es un "+ tokens + "\n";//para sacar el token del archivo de texto y decir si es reservada o numero o identificador
+                        resultado += lexer.lexeme +": "+ tokens + "\n";//para sacar el token del archivo de texto y decir si es reservada o numero o identificador
                         break;
+                        
+                    
                     default:
-                        resultado+="Token: "+ tokens + "\n"; // es para los de mas tokens que no se usaron como multiplicacion ,division
+                        resultado+= lexer.lexeme +": "+tokens + "\n"; // es para los de mas tokens que no se usaron como multiplicacion ,division
                           break;
+                    
                 }
                 
             }
