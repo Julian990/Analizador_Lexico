@@ -5,7 +5,8 @@ import static codigo.Tokens.*;
 %type Tokens
 L=[a-zA-Z_]+
 D=[0-9]+
-espacio=[ ,\t,\r]+
+espacio=[ \t\r]+
+
 %{
     public String lexeme;
 %}
@@ -22,12 +23,18 @@ espacio=[ ,\t,\r]+
 ";" {lexeme=yytext(); return FinalLinea;}
 "{" {lexeme=yytext(); return LlaveA;}
 "}" {lexeme=yytext(); return LlaveC;}
+"[" {lexeme=yytext(); return CorcheteA;}
+"]" {lexeme=yytext(); return CorcheteC;}
+"\"" {lexeme=yytext(); return Comillas;}
+"," {lexeme=yytext(); return Coma;}
 
-"int" {lexeme=yytext(); return Int;}
-"char" {lexeme=yytext(); return Chart;}
-"String" {lexeme=yytext(); return string;}
-"float" {lexeme=yytext(); return Float;}
-"long" {lexeme=yytext(); return Long;}
+"int" {lexeme=yytext(); return TipoDato;}
+"char" {lexeme=yytext(); return Char;}
+"String" {lexeme=yytext(); return TipoDato;}
+"float" {lexeme=yytext(); return TipoDato;}
+"long" {lexeme=yytext(); return TipoDato;}
+"byte" {lexeme=yytext(); return TipoDato;}
+"double" {lexeme=yytext(); return TipoDato;}
 
 "if" {lexeme=yytext(); return If;}
 "else" {lexeme=yytext(); return Else;}
@@ -35,28 +42,45 @@ espacio=[ ,\t,\r]+
 "public" {lexeme=yytext(); return Public;}
 "class" {lexeme=yytext(); return Class;}
 "return" {lexeme=yytext(); return Return;}
+"do" {lexeme=yytext(); return Do;}
+"while" {lexeme=yytext(); return While;}
+"for" {lexeme=yytext(); return For;}
+"main" {lexeme=yytext(); return Main;}
+"static" {lexeme=yytext(); return Static;}
+"void" {lexeme=yytext(); return Void;}
+"private" {lexeme=yytext(); return Private;}
 
-"+" {lexeme=yytext(); return Suma;}
-"-" {lexeme=yytext(); return Resta;}
-"*" {lexeme=yytext(); return Multiplicaion;}
-"/" {lexeme=yytext(); return Division;}
-"%" {lexeme=yytext(); return Modulo;}
+"+" {lexeme=yytext(); return OperadorAritmetico;}
+"-" {lexeme=yytext(); return OperadorAritmetico;}
+"*" {lexeme=yytext(); return OperadorAritmetico;}
+"/" {lexeme=yytext(); return OperadorAritmetico;}
+"%" {lexeme=yytext(); return OperadorAritmetico;}
 
 "++" {lexeme=yytext(); return Incremento;}
-"--" {lexeme=yytext(); return Decremento;}
+"--" {lexeme=yytext(); return Incremento;}
 
 "=" {lexeme=yytext(); return Asignacion;}
 
-"==" {lexeme=yytext(); return IgualQue;}
-"!=" {lexeme=yytext(); return DistintoDe;}
-"<" {lexeme=yytext(); return MenorQue;}
-">" {lexeme=yytext(); return MayorQue;}
-"<=" {lexeme=yytext(); return MenorIgualQue;}
-">=" {lexeme=yytext(); return MayorIgualQue;}
+"==" {lexeme=yytext(); return Relacionales;}
+"!=" {lexeme=yytext(); return Relacionales;}
+"<" {lexeme=yytext(); return Relacionales;}
+">" {lexeme=yytext(); return Relacionales;}
+"<=" {lexeme=yytext(); return Relacionales;}
+">=" {lexeme=yytext(); return Relacionales;}
 
-"!" {lexeme=yytext(); return Negacion;}
-"&" {lexeme=yytext(); return And;}
-"||" {lexeme=yytext(); return Or;}
+"!" {lexeme=yytext(); return OperadorLogico;}
+"&" {lexeme=yytext(); return OperadorLogico;}
+"||" {lexeme=yytext(); return OperadorLogico;}
+
+"+=" {lexeme=yytext(); return Atribucion;}
+"-="  {lexeme=yytext(); return Atribucion;}
+"*=" {lexeme=yytext(); return Atribucion;}
+"/=" {lexeme=yytext(); return Atribucion;}
+"%=" {lexeme=yytext(); return Atribucion;}
+"=" {lexeme=yytext(); return Atribucion;}
+
+"true" {lexeme=yytext(); return Booleano;}
+"false" {lexeme=yytext(); return Booleano;}
 
 {L}({L}|{D})* {lexeme=yytext(); return Identificador;}
 ("(-"{D}+")")|{D}+ {lexeme=yytext(); return Numero;}

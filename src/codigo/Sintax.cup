@@ -1,0 +1,113 @@
+package codigo;
+
+import java_cup.runtime.Symbol;
+
+parser code
+{:
+    private Symbol s;
+    
+    public void syntax_error(Symbol s){
+        this.s = s;
+    }
+
+    public Symbol getS(){
+        return this.s;
+}
+:};
+
+terminal Linea, ParentecisA, ParentecisC, FinalLinea, LlaveA, LlaveC, Comillas, Coma, TipoDato, string, If, Else, Package, Public, Class, Return, Do, While, For, OperadorAritmetico, Incremento, Decremento, Asignacion, Relacionales, OperadorLogico, Identificador, Numero, Atribucion, Booleano, CorcheteA, CorcheteC, Static, Void, Private, Main, ERROR;
+non terminal CLASS, IMPORT, INICIO_CLASE, ASIGNACION, CONSTRUCTOR, INICIO_METODO, SENTENCIA, DECLARACION, DECLARACION_ASIGNACION, DECLARACION_FOR, IF, IF_ELSE,
+    WHILE, DO_WHILE, FOR, SENTENCIA_BOOLEANA, SENTENCIA_FOR;
+
+start with CLASS;
+
+CLASS ::=
+    IMPORT 
+    INICIO_CLASE 
+    DECLARACION 
+    DECLARACION 
+    CONSTRUCTOR 
+    INICIO_METODO Return Identificador OperadorAritmetico Identificador FinalLinea LlaveC 
+    INICIO_METODO Return Identificador OperadorAritmetico Identificador FinalLinea LlaveC 
+    INICIO_METODO Return Identificador OperadorAritmetico Identificador FinalLinea LlaveC 
+    INICIO_METODO Return Identificador OperadorAritmetico Identificador FinalLinea LlaveC 
+    INICIO_METODO FOR Return Identificador FinalLinea LlaveC
+    LlaveC
+;
+
+IMPORT ::=
+    Package Identificador FinalLinea
+;
+
+INICIO_CLASE ::= 
+    Public Class Identificador LlaveA 
+;
+
+ASIGNACION ::=
+    Identificador Asignacion Identificador FinalLinea
+;
+
+CONSTRUCTOR ::=
+    Public Identificador ParentecisA TipoDato Identificador Coma TipoDato Identificador ParentecisC LlaveA ASIGNACION ASIGNACION LlaveC
+;
+
+INICIO_METODO ::=
+    Public TipoDato Identificador ParentecisA ParentecisC LlaveA
+;
+
+SENTENCIA ::= 
+    DECLARACION_ASIGNACION |
+    DECLARACION |
+    SENTENCIA IF | 
+    IF |
+    SENTENCIA IF_ELSE |
+    IF_ELSE |
+    SENTENCIA WHILE |
+    WHILE |
+    SENTENCIA DO_WHILE
+    DO_WHILE |
+    SENTENCIA FOR |
+    FOR
+;
+DECLARACION ::= 
+    TipoDato Identificador FinalLinea | 
+    TipoDato Identificador Atribucion Numero FinalLinea |
+    TipoDato Identificador Asignacion Numero FinalLinea |
+    TipoDato Identificador Incremento FinalLinea | 
+    TipoDato Incremento Identificador FinalLinea | 
+    string Identificador Atribucion Comillas Comillas FinalLinea |
+    string Identificador Asignacion Comillas Comillas FinalLinea |
+    string Identificador Atribucion Comillas Identificador Comillas FinalLinea |
+    string Identificador Asignacion Comillas Identificador Comillas FinalLinea
+;
+DECLARACION_ASIGNACION ::=
+    Identificador Asignacion Identificador OperadorAritmetico Identificador FinalLinea
+;
+
+IF ::= If ParentecisA SENTENCIA_BOOLEANA ParentecisC LlaveA SENTENCIA LlaveC
+;
+SENTENCIA_BOOLEANA ::= 
+    Booleano | 
+    Identificador Relacionales Booleano |
+    Identificador Relacionales Numero |
+    Identificador Relacionales Identificador |
+    Identificador Relacionales Comillas Comillas |
+    Identificador Relacionales Comillas Identificador Comillas
+;
+IF_ELSE ::= If ParentecisA SENTENCIA_BOOLEANA ParentecisC LlaveA SENTENCIA LlaveC Else LlaveA SENTENCIA LlaveC
+;
+WHILE ::= While ParentecisA SENTENCIA_BOOLEANA ParentecisC LlaveA SENTENCIA LlaveC
+;
+DO_WHILE ::= Do LlaveA SENTENCIA LlaveC While ParentecisA SENTENCIA_BOOLEANA ParentecisC FinalLinea
+;
+FOR ::= For ParentecisA SENTENCIA_FOR ParentecisC LlaveA SENTENCIA LlaveC
+;
+SENTENCIA_FOR ::=
+    TipoDato Identificador Asignacion Numero FinalLinea SENTENCIA_BOOLEANA FinalLinea DECLARACION_FOR |
+    Identificador Asignacion Numero FinalLinea SENTENCIA_BOOLEANA FinalLinea DECLARACION_FOR
+;
+DECLARACION_FOR ::= 
+    Identificador Atribucion Numero |
+    Identificador Incremento | 
+    Incremento Identificador
+;

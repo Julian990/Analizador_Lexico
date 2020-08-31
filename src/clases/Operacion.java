@@ -3,7 +3,8 @@ package clases;
 
 public class Operacion {
     
-    int x,y;
+    int x;
+    int y;
 
     public Operacion(int a, int b){
         x=a;
