@@ -16,10 +16,14 @@ parser code
 :};
 
 terminal Linea, ParentecisA, ParentecisC, FinalLinea, LlaveA, LlaveC, Comillas, Coma, TipoDato, string, If, Else, Package, Public, Class, Return, Do, While, For, OperadorAritmetico, Incremento, Decremento, Asignacion, Relacionales, OperadorLogico, Identificador, Numero, Atribucion, Booleano, CorcheteA, CorcheteC, Static, Void, Private, Main, ERROR;
-non terminal CLASS, IMPORT, INICIO_CLASE, ASIGNACION, CONSTRUCTOR, INICIO_METODO, SENTENCIA, DECLARACION, DECLARACION_ASIGNACION, DECLARACION_FOR, IF, IF_ELSE,
-    WHILE, DO_WHILE, FOR, SENTENCIA_BOOLEANA, SENTENCIA_FOR;
+non terminal PROG, CLASS, IMPORT, INICIO_CLASE, ASIGNACION, CONSTRUCTOR, INICIO_METODO, SENTENCIA, DECLARACION, DECLARACION_ASIGNACION, DECLARACION_FOR, IF, IF_ELSE,
+    WHILE, DO_WHILE, FOR, SENTENCIA_BOOLEANA, SENTENCIA_FOR, ACCESO_METODO, ARGUMENTS, METODO, ARGUMENTS_A;
 
-start with CLASS;
+start with PROG;
+
+PROG ::=
+    CLASS | FOR | METODO
+;
 
 CLASS ::=
     IMPORT 
@@ -51,9 +55,36 @@ CONSTRUCTOR ::=
     Public Identificador ParentecisA TipoDato Identificador Coma TipoDato Identificador ParentecisC LlaveA ASIGNACION ASIGNACION LlaveC
 ;
 
-INICIO_METODO ::=
-    Public TipoDato Identificador ParentecisA ParentecisC LlaveA
+ACCESO_METODO ::=
+    Public | Private
 ;
+
+INICIO_METODO ::=
+    ACCESO_METODO TipoDato Identificador ParentecisA ARGUMENTS LlaveA
+;
+
+ARGUMENTS ::=
+    ARGUMENTS_A |
+    ARGUMENTS_A ARGUMENTS_A
+    ARGUMENTS_A ARGUMENTS_A ARGUMENTS_A
+    ARGUMENTS_A ARGUMENTS_A ARGUMENTS_A ARGUMENTS_A
+;
+
+ARGUMENTS_A ::=
+    ParentecisC |
+    TipoDato Identificador ParentecisC |
+    TipoDato Identificador Coma |
+    string Identificador ParentecisC |
+    string Identificador Coma 
+;
+
+
+METODO ::=
+    INICIO_METODO LlaveC |
+    INICIO_METODO SENTENCIA LlaveC |
+    INICIO_METODO SENTENCIA Return Identificador FinalLinea LlaveC 
+;
+
 
 SENTENCIA ::= 
     DECLARACION_ASIGNACION |
