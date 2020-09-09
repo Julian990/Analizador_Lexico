@@ -53,6 +53,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 case Coma:
                     resultado += "  <Coma>\t\t" + lexer.lexeme + "\n";
                     break;
+                case Punto:
+                    resultado += "  <Punto>\t\t" + lexer.lexeme + "\n";
+                    break;
                 case string:
                 case TipoDato:
                     resultado += "  <Tipo de dato>\t" + lexer.lexeme + "\n";
@@ -66,6 +69,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 case Do:
                 case While:
                 case For:
+                case Try:
+                case Catch:
+                case exception:
+                case Import:    
                     resultado += "  <Reservada>\t\t" + lexer.lexeme + "\n";
                     break;
                 case Asignacion:

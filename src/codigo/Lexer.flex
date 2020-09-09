@@ -27,6 +27,7 @@ espacio=[ \t\r]+
 "]" {lexeme=yytext(); return CorcheteC;}
 "\"" {lexeme=yytext(); return Comillas;}
 "," {lexeme=yytext(); return Coma;}
+"." {lexeme=yytext(); return Punto;}
 
 "int" {lexeme=yytext(); return TipoDato;}
 "char" {lexeme=yytext(); return Char;}
@@ -49,6 +50,11 @@ espacio=[ \t\r]+
 "static" {lexeme=yytext(); return Static;}
 "void" {lexeme=yytext(); return Void;}
 "private" {lexeme=yytext(); return Private;}
+"try" {lexeme=yytext(); return Try;}
+"catch" {lexeme=yytext(); return Catch;}
+
+"Exception" {lexeme=yytext(); return exception;}
+"import" {lexeme=yytext(); return Import;}
 
 "+" {lexeme=yytext(); return OperadorAritmetico;}
 "-" {lexeme=yytext(); return OperadorAritmetico;}

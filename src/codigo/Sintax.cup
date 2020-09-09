@@ -15,18 +15,29 @@ parser code
 }
 :};
 
-terminal Linea, ParentecisA, ParentecisC, FinalLinea, LlaveA, LlaveC, Comillas, Coma, TipoDato, string, If, Else, Package, Public, Class, Return, Do, While, For, OperadorAritmetico, Incremento, Decremento, Asignacion, Relacionales, OperadorLogico, Identificador, Numero, Atribucion, Booleano, CorcheteA, CorcheteC, Static, Void, Private, Main, ERROR;
-non terminal PROG, CLASS, IMPORT, INICIO_CLASE, ASIGNACION, CONSTRUCTOR, INICIO_METODO, SENTENCIA, DECLARACION, DECLARACION_ASIGNACION, DECLARACION_FOR, IF, IF_ELSE,
-    WHILE, DO_WHILE, FOR, SENTENCIA_BOOLEANA, SENTENCIA_FOR, ACCESO_METODO, ARGUMENTS, METODO, ARGUMENTS_A;
+terminal Linea, ParentecisA, ParentecisC, FinalLinea, LlaveA, LlaveC, Comillas, Coma, TipoDato, string, If, Else, Package, Public, Class, Return, Do, While, For, OperadorAritmetico, Incremento, Decremento, Asignacion, Relacionales, OperadorLogico, Identificador, Numero, Atribucion, Booleano, CorcheteA, CorcheteC, Static, Void, Private, Main, Try, Catch, exception, Import, Punto, ERROR;
+non terminal PROG, CLASS, PACKAGE_PATH, INICIO_CLASE, ASIGNACION, CONSTRUCTOR, INICIO_METODO, SENTENCIA, DECLARACION, DECLARACION_ASIGNACION, DECLARACION_FOR, IF, IF_ELSE,
+    WHILE, DO_WHILE, FOR, SENTENCIA_BOOLEANA, SENTENCIA_FOR, ACCESO_METODO, ARGUMENTS, METODO, ARGUMENTS_A, EJEMPLO_1, INICIO_BLOQUE_TRY_CATCH, FINAL_BLOQUE_TRY_CATCH,
+    OPERACION_ARITMETICA;
 
 start with PROG;
 
 PROG ::=
-    CLASS | FOR | METODO
+    CLASS | FOR | METODO | EJEMPLO_1
 ;
 
 CLASS ::=
-    IMPORT 
+    PACKAGE_PATH 
+    INICIO_CLASE 
+    DECLARACION 
+    DECLARACION 
+    CONSTRUCTOR 
+    INICIO_METODO Return Identificador OperadorAritmetico Identificador FinalLinea LlaveC 
+    INICIO_METODO Return Identificador OperadorAritmetico Identificador FinalLinea LlaveC 
+    INICIO_METODO Return Identificador OperadorAritmetico Identificador FinalLinea LlaveC 
+    INICIO_METODO Return Identificador OperadorAritmetico Identificador FinalLinea LlaveC 
+    INICIO_METODO FOR Return Identificador FinalLinea LlaveC
+    LlaveC | 
     INICIO_CLASE 
     DECLARACION 
     DECLARACION 
@@ -39,7 +50,19 @@ CLASS ::=
     LlaveC
 ;
 
-IMPORT ::=
+EJEMPLO_1 ::=
+    INICIO_CLASE
+    INICIO_METODO
+    DECLARACION
+    INICIO_BLOQUE_TRY_CATCH
+    DECLARACION
+    DECLARACION_ASIGNACION
+    FINAL_BLOQUE_TRY_CATCH
+    LlaveC
+    LlaveC
+;
+
+PACKAGE_PATH ::=
     Package Identificador FinalLinea
 ;
 
@@ -60,7 +83,8 @@ ACCESO_METODO ::=
 ;
 
 INICIO_METODO ::=
-    ACCESO_METODO TipoDato Identificador ParentecisA ARGUMENTS LlaveA
+    ACCESO_METODO TipoDato Identificador ParentecisA ARGUMENTS LlaveA |
+    ACCESO_METODO Static Void Main ParentecisA ARGUMENTS LlaveA
 ;
 
 ARGUMENTS ::=
@@ -75,16 +99,16 @@ ARGUMENTS_A ::=
     TipoDato Identificador ParentecisC |
     TipoDato Identificador Coma |
     string Identificador ParentecisC |
-    string Identificador Coma 
+    string Identificador Coma |
+    string CorcheteA CorcheteC Identificador ParentecisC |
+    string CorcheteA CorcheteC Identificador Coma 
 ;
-
 
 METODO ::=
     INICIO_METODO LlaveC |
     INICIO_METODO SENTENCIA LlaveC |
     INICIO_METODO SENTENCIA Return Identificador FinalLinea LlaveC 
 ;
-
 
 SENTENCIA ::= 
     DECLARACION_ASIGNACION |
@@ -100,6 +124,7 @@ SENTENCIA ::=
     SENTENCIA FOR |
     FOR
 ;
+
 DECLARACION ::= 
     TipoDato Identificador FinalLinea | 
     TipoDato Identificador Atribucion Numero FinalLinea |
@@ -111,12 +136,22 @@ DECLARACION ::=
     string Identificador Atribucion Comillas Identificador Comillas FinalLinea |
     string Identificador Asignacion Comillas Identificador Comillas FinalLinea
 ;
+
 DECLARACION_ASIGNACION ::=
-    Identificador Asignacion Identificador OperadorAritmetico Identificador FinalLinea
+    Identificador Asignacion OPERACION_ARITMETICA FinalLinea |
+    TipoDato Identificador Asignacion OPERACION_ARITMETICA FinalLinea
+;
+
+OPERACION_ARITMETICA ::=
+    Identificador OperadorAritmetico Identificador |
+    Numero OperadorAritmetico Numero |
+    Identificador OperadorAritmetico Numero |
+    Numero OperadorAritmetico Identificador
 ;
 
 IF ::= If ParentecisA SENTENCIA_BOOLEANA ParentecisC LlaveA SENTENCIA LlaveC
 ;
+
 SENTENCIA_BOOLEANA ::= 
     Booleano | 
     Identificador Relacionales Booleano |
@@ -125,20 +160,37 @@ SENTENCIA_BOOLEANA ::=
     Identificador Relacionales Comillas Comillas |
     Identificador Relacionales Comillas Identificador Comillas
 ;
+
 IF_ELSE ::= If ParentecisA SENTENCIA_BOOLEANA ParentecisC LlaveA SENTENCIA LlaveC Else LlaveA SENTENCIA LlaveC
 ;
+
 WHILE ::= While ParentecisA SENTENCIA_BOOLEANA ParentecisC LlaveA SENTENCIA LlaveC
 ;
+
 DO_WHILE ::= Do LlaveA SENTENCIA LlaveC While ParentecisA SENTENCIA_BOOLEANA ParentecisC FinalLinea
 ;
+
 FOR ::= For ParentecisA SENTENCIA_FOR ParentecisC LlaveA SENTENCIA LlaveC
 ;
+
 SENTENCIA_FOR ::=
     TipoDato Identificador Asignacion Numero FinalLinea SENTENCIA_BOOLEANA FinalLinea DECLARACION_FOR |
     Identificador Asignacion Numero FinalLinea SENTENCIA_BOOLEANA FinalLinea DECLARACION_FOR
 ;
+
 DECLARACION_FOR ::= 
     Identificador Atribucion Numero |
     Identificador Incremento | 
     Incremento Identificador
 ;
+
+INICIO_BLOQUE_TRY_CATCH ::=
+    Try LlaveA
+;
+
+FINAL_BLOQUE_TRY_CATCH ::=
+    LlaveC Catch ParentecisA 
+    exception Identificador 
+    ParentecisC LlaveA LlaveC
+;
+

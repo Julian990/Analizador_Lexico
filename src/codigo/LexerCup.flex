@@ -53,6 +53,9 @@ espacio=[ \t\r\n]+
 /* coma */
 ( "," ) {return new Symbol(sym.Coma, yychar, yyline, yytext());}
 
+/* punto */
+( "." ) {return new Symbol(sym.Punto, yychar, yyline, yytext());}
+
 /* tipos de datos */
 ( "int" ) {return new Symbol(sym.TipoDato, yychar, yyline, yytext());}
 ( "char" ) {return new Symbol(sym.TipoDato, yychar, yyline, yytext());}
@@ -76,6 +79,10 @@ espacio=[ \t\r\n]+
 ( "static" ) {return new Symbol(sym.Static, yychar, yyline, yytext());}
 ( "void" ) {return new Symbol(sym.Void, yychar, yyline, yytext());}
 ( "private" ) {return new Symbol(sym.Private, yychar, yyline, yytext());}
+( "try" ) {return new Symbol(sym.Try, yychar, yyline, yytext());}
+( "catch" ) {return new Symbol(sym.Catch, yychar, yyline, yytext());}
+( "Exception" ) {return new Symbol(sym.exception, yychar, yyline, yytext());}
+( "import" ) {return new Symbol(sym.Import, yychar, yyline, yytext());}
 
 /* operadores aritmeticos */
 /* Operador Suma */

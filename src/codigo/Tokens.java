@@ -44,5 +44,10 @@ public enum Tokens {
     Void,
     Private,
     Main,
+    Try,
+    Catch,
+    exception,
+    Import,
+    Punto,
     ERROR
 }
