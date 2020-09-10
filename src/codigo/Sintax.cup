@@ -15,15 +15,15 @@ parser code
 }
 :};
 
-terminal Linea, ParentecisA, ParentecisC, FinalLinea, LlaveA, LlaveC, Comillas, Coma, TipoDato, string, If, Else, Package, Public, Class, Return, Do, While, For, OperadorAritmetico, Incremento, Decremento, Asignacion, Relacionales, OperadorLogico, Identificador, Numero, Atribucion, Booleano, CorcheteA, CorcheteC, Static, Void, Private, Main, Try, Catch, exception, Import, Punto, ERROR;
+terminal Linea, ParentecisA, ParentecisC, FinalLinea, LlaveA, LlaveC, Comillas, Coma, TipoDato, string, If, Else, Package, Public, Class, Return, Do, While, For, OperadorAritmetico, Incremento, Decremento, Asignacion, Relacionales, OperadorLogico, Identificador, Numero, Atribucion, Booleano, CorcheteA, CorcheteC, Static, Void, Private, Main, Try, Catch, exception, Import, Punto, New, ERROR;
 non terminal PROG, CLASS, PACKAGE_PATH, INICIO_CLASE, ASIGNACION, CONSTRUCTOR, INICIO_METODO, SENTENCIA, DECLARACION, DECLARACION_ASIGNACION, DECLARACION_FOR, IF, IF_ELSE,
     WHILE, DO_WHILE, FOR, SENTENCIA_BOOLEANA, SENTENCIA_FOR, ACCESO_METODO, ARGUMENTS, METODO, ARGUMENTS_A, EJEMPLO_1, INICIO_BLOQUE_TRY_CATCH, FINAL_BLOQUE_TRY_CATCH,
-    OPERACION_ARITMETICA;
+    OPERACION_ARITMETICA, EJEMPLO_2, IMPORT, PRINT, INSTANCIACION_CLASE, LLAMADO_METODO;
 
 start with PROG;
 
 PROG ::=
-    CLASS | FOR | METODO | EJEMPLO_1
+    CLASS | FOR | METODO | EJEMPLO_1 | EJEMPLO_2
 ;
 
 CLASS ::=
@@ -62,8 +62,24 @@ EJEMPLO_1 ::=
     LlaveC
 ;
 
+EJEMPLO_2 ::=
+    IMPORT
+    INICIO_CLASE
+    INICIO_METODO
+    PRINT
+    INSTANCIACION_CLASE
+    SENTENCIA
+    LlaveC
+    LlaveC
+;
+
 PACKAGE_PATH ::=
     Package Identificador FinalLinea
+;
+
+IMPORT ::=
+    Import Identificador FinalLinea |
+    Import Identificador Punto Identificador Punto OperadorAritmetico FinalLinea
 ;
 
 INICIO_CLASE ::= 
@@ -104,6 +120,20 @@ ARGUMENTS_A ::=
     string CorcheteA CorcheteC Identificador Coma 
 ;
 
+PRINT ::=
+    Identificador Punto Identificador Punto Identificador
+    ParentecisA Comillas Identificador Identificador Identificador Identificador Comillas ParentecisC
+    FinalLinea
+;
+
+INSTANCIACION_CLASE ::=
+    Identificador Identificador Asignacion 
+    New Identificador ParentecisA
+    New Identificador ParentecisA
+    Identificador Punto Identificador
+    ParentecisC ParentecisC FinalLinea
+;
+
 METODO ::=
     INICIO_METODO LlaveC |
     INICIO_METODO SENTENCIA LlaveC |
@@ -139,7 +169,12 @@ DECLARACION ::=
 
 DECLARACION_ASIGNACION ::=
     Identificador Asignacion OPERACION_ARITMETICA FinalLinea |
-    TipoDato Identificador Asignacion OPERACION_ARITMETICA FinalLinea
+    TipoDato Identificador Asignacion OPERACION_ARITMETICA FinalLinea |
+    TipoDato Identificador Asignacion Identificador Punto LLAMADO_METODO FinalLinea
+;
+
+LLAMADO_METODO ::=
+    Identificador ParentecisA ParentecisC
 ;
 
 OPERACION_ARITMETICA ::=

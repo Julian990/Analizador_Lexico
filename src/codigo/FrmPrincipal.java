@@ -73,6 +73,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 case Catch:
                 case exception:
                 case Import:    
+                case New:
                     resultado += "  <Reservada>\t\t" + lexer.lexeme + "\n";
                     break;
                 case Asignacion:

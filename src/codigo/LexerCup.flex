@@ -83,6 +83,7 @@ espacio=[ \t\r\n]+
 ( "catch" ) {return new Symbol(sym.Catch, yychar, yyline, yytext());}
 ( "Exception" ) {return new Symbol(sym.exception, yychar, yyline, yytext());}
 ( "import" ) {return new Symbol(sym.Import, yychar, yyline, yytext());}
+( "new" ) {return new Symbol(sym.New, yychar, yyline, yytext());}
 
 /* operadores aritmeticos */
 /* Operador Suma */
@@ -133,5 +134,6 @@ espacio=[ \t\r\n]+
 /* Numero */
 ("(-"{D}+")")|{D}+ {return new Symbol(sym.Numero, yychar, yyline, yytext());}
 
-/* Error de analisis */
+/* Error de analisis 
  . {return new Symbol(sym.ERROR, yychar, yyline, yytext());}
+*/

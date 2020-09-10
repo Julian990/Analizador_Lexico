@@ -52,6 +52,7 @@ espacio=[ \t\r]+
 "private" {lexeme=yytext(); return Private;}
 "try" {lexeme=yytext(); return Try;}
 "catch" {lexeme=yytext(); return Catch;}
+"new" {lexeme=yytext(); return New;}
 
 "Exception" {lexeme=yytext(); return exception;}
 "import" {lexeme=yytext(); return Import;}
@@ -90,5 +91,5 @@ espacio=[ \t\r]+
 
 {L}({L}|{D})* {lexeme=yytext(); return Identificador;}
 ("(-"{D}+")")|{D}+ {lexeme=yytext(); return Numero;}
- . {lexeme=yytext(); return ERROR;}
+/* . {lexeme=yytext(); return ERROR;}*/
 

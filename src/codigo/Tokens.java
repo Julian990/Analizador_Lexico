@@ -49,5 +49,6 @@ public enum Tokens {
     exception,
     Import,
     Punto,
+    New,
     ERROR
 }
