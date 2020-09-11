@@ -17,13 +17,14 @@ parser code
 
 terminal Linea, ParentecisA, ParentecisC, FinalLinea, LlaveA, LlaveC, Comillas, Coma, TipoDato, string, If, Else, Package, Public, Class, Return, Do, While, For, OperadorAritmetico, Incremento, Decremento, Asignacion, Relacionales, OperadorLogico, Identificador, Numero, Atribucion, Booleano, CorcheteA, CorcheteC, Static, Void, Private, Main, Try, Catch, exception, Import, Punto, New, ERROR;
 non terminal PROG, CLASS, PACKAGE_PATH, INICIO_CLASE, ASIGNACION, CONSTRUCTOR, INICIO_METODO, SENTENCIA, DECLARACION, DECLARACION_ASIGNACION, DECLARACION_FOR, IF, IF_ELSE,
-    WHILE, DO_WHILE, FOR, SENTENCIA_BOOLEANA, SENTENCIA_FOR, ACCESO_METODO, ARGUMENTS, METODO, ARGUMENTS_A, EJEMPLO_1, INICIO_BLOQUE_TRY_CATCH, FINAL_BLOQUE_TRY_CATCH,
-    OPERACION_ARITMETICA, EJEMPLO_2, IMPORT, PRINT, INSTANCIACION_CLASE, LLAMADO_METODO;
+    WHILE, DO_WHILE, FOR, SENTENCIA_BOOLEANA, SENTENCIA_FOR, ACCESO_METODO, PARAMETERS, METODO, PARAMETERS_A, EJEMPLO_1, INICIO_BLOQUE_TRY_CATCH, FINAL_BLOQUE_TRY_CATCH,
+    OPERACION_ARITMETICA, EJEMPLO_2, IMPORT, PRINT, INSTANCIACION_CLASE, LLAMADO_METODO,
+    EJEMPLO_3, PARSE_DATA, ARGUMENTS;
 
 start with PROG;
 
 PROG ::=
-    CLASS | FOR | METODO | EJEMPLO_1 | EJEMPLO_2
+    CLASS | FOR | METODO | EJEMPLO_1 | EJEMPLO_2 | EJEMPLO_3
 ;
 
 CLASS ::=
@@ -73,6 +74,39 @@ EJEMPLO_2 ::=
     LlaveC
 ;
 
+EJEMPLO_3 ::=
+    IMPORT
+    INICIO_CLASE
+    INICIO_METODO
+    PRINT
+    INSTANCIACION_CLASE
+    INICIO_BLOQUE_TRY_CATCH
+    SENTENCIA
+    LLAMADO_METODO
+    FINAL_BLOQUE_TRY_CATCH
+    LlaveC
+    INICIO_METODO
+    PRINT
+    LlaveC
+    LlaveC
+    |
+    IMPORT
+    INICIO_CLASE
+    INICIO_METODO
+    PRINT
+    INSTANCIACION_CLASE
+    INICIO_BLOQUE_TRY_CATCH
+    SENTENCIA
+    DECLARACION
+    LLAMADO_METODO
+    FINAL_BLOQUE_TRY_CATCH
+    LlaveC
+    INICIO_METODO
+    PRINT
+    LlaveC
+    LlaveC
+;
+
 PACKAGE_PATH ::=
     Package Identificador FinalLinea
 ;
@@ -99,18 +133,19 @@ ACCESO_METODO ::=
 ;
 
 INICIO_METODO ::=
-    ACCESO_METODO TipoDato Identificador ParentecisA ARGUMENTS LlaveA |
-    ACCESO_METODO Static Void Main ParentecisA ARGUMENTS LlaveA
+    ACCESO_METODO TipoDato Identificador ParentecisA PARAMETERS LlaveA |
+    ACCESO_METODO Static Void Main ParentecisA PARAMETERS LlaveA |
+    ACCESO_METODO Static Void Identificador ParentecisA PARAMETERS LlaveA
 ;
 
-ARGUMENTS ::=
-    ARGUMENTS_A |
-    ARGUMENTS_A ARGUMENTS_A
-    ARGUMENTS_A ARGUMENTS_A ARGUMENTS_A
-    ARGUMENTS_A ARGUMENTS_A ARGUMENTS_A ARGUMENTS_A
+PARAMETERS ::=
+    PARAMETERS_A |
+    PARAMETERS_A PARAMETERS_A |
+    PARAMETERS_A PARAMETERS_A PARAMETERS_A |
+    PARAMETERS_A PARAMETERS_A PARAMETERS_A PARAMETERS_A
 ;
 
-ARGUMENTS_A ::=
+PARAMETERS_A ::=
     ParentecisC |
     TipoDato Identificador ParentecisC |
     TipoDato Identificador Coma |
@@ -120,10 +155,18 @@ ARGUMENTS_A ::=
     string CorcheteA CorcheteC Identificador Coma 
 ;
 
+ARGUMENTS ::=
+    Identificador |
+    Identificador Coma Identificador 
+;
+
 PRINT ::=
     Identificador Punto Identificador Punto Identificador
     ParentecisA Comillas Identificador Identificador Identificador Identificador Comillas ParentecisC
-    FinalLinea
+    FinalLinea |
+    Identificador Punto Identificador Punto Identificador
+    ParentecisA Comillas Identificador Identificador Identificador Comillas
+    OperadorAritmetico ParentecisA OPERACION_ARITMETICA ParentecisC ParentecisC FinalLinea
 ;
 
 INSTANCIACION_CLASE ::=
@@ -170,11 +213,20 @@ DECLARACION ::=
 DECLARACION_ASIGNACION ::=
     Identificador Asignacion OPERACION_ARITMETICA FinalLinea |
     TipoDato Identificador Asignacion OPERACION_ARITMETICA FinalLinea |
-    TipoDato Identificador Asignacion Identificador Punto LLAMADO_METODO FinalLinea
+    TipoDato Identificador Asignacion Identificador Punto LLAMADO_METODO FinalLinea |
+    TipoDato Identificador Asignacion PARSE_DATA FinalLinea
+;
+
+PARSE_DATA ::=
+    Identificador Punto Identificador 
+    ParentecisA 
+    Identificador Punto LLAMADO_METODO
+    ParentecisC
 ;
 
 LLAMADO_METODO ::=
-    Identificador ParentecisA ParentecisC
+    Identificador ParentecisA ParentecisC |
+    Identificador ParentecisA ARGUMENTS ParentecisC FinalLinea
 ;
 
 OPERACION_ARITMETICA ::=
