@@ -30,7 +30,7 @@ espacio=[ \t\r]+
 "." {lexeme=yytext(); return Punto;}
 
 "int" {lexeme=yytext(); return TipoDato;}
-"char" {lexeme=yytext(); return Char;}
+"char" {lexeme=yytext(); return TipoDato;}
 "String" {lexeme=yytext(); return TipoDato;}
 "float" {lexeme=yytext(); return TipoDato;}
 "long" {lexeme=yytext(); return TipoDato;}
@@ -53,9 +53,11 @@ espacio=[ \t\r]+
 "try" {lexeme=yytext(); return Try;}
 "catch" {lexeme=yytext(); return Catch;}
 "new" {lexeme=yytext(); return New;}
-
 "Exception" {lexeme=yytext(); return exception;}
 "import" {lexeme=yytext(); return Import;}
+"extends" {lexeme=yytext(); return Extends;}
+"super" {lexeme=yytext(); return Super;}
+"this" {lexeme=yytext(); return This;}
 
 "+" {lexeme=yytext(); return OperadorAritmetico;}
 "-" {lexeme=yytext(); return OperadorAritmetico;}
@@ -91,5 +93,5 @@ espacio=[ \t\r]+
 
 {L}({L}|{D})* {lexeme=yytext(); return Identificador;}
 ("(-"{D}+")")|{D}+ {lexeme=yytext(); return Numero;}
-/* . {lexeme=yytext(); return ERROR;}*/
+. {lexeme=yytext(); return ERROR;}
 

@@ -50,5 +50,8 @@ public enum Tokens {
     Import,
     Punto,
     New,
+    Extends,
+    Super,
+    This,
     ERROR
 }
