@@ -3,14 +3,14 @@ package semantico;
 import java.io.*;
 import java.io.File;
 import java.util.Scanner;
-class comp 
+public class comp 
 {
  
 	public static void main( String[] args )throws ParseException, Exception
 	{
             try
                 {
-                    File initialFile = new File("I:/UTAP/COMPILADORES/ANALIZADOR/src/semantico/code.txt");
+                    File initialFile = new File("I:/UTAP/COMPILADORES/ANALIZADOR/src/semantico/code.java");
                     InputStream targetStream = new FileInputStream(initialFile);
                           
                 comp analizador = new comp(targetStream);
@@ -41,6 +41,9 @@ TOKEN:
 {
 	  <PUBLIC: "public"> 
 	| <PRIVATE: "private"> 
+        | <CLASS: "class"> 
+        | <IMPORT: "import"> 
+        | <PATH_LIB: <IMPORT>["a"-"z","A"-"Z", " "](["a"-"z","A"-"Z",".", "*"])*> 
 	| <STATIC: "static"> 
 	| <VOID: "void"> 
 	| <MAIN: "public static void main (String[] args)"> 
@@ -52,10 +55,10 @@ TOKEN:
 	| <SWITCH:"switch" > 
 	| <CASE:"case" > 
 	| <BREAK:"break" > 
-	| <DEFAUL:"defaul" > 
+	| <DEFAUL:"default" > 
 	| <DO:"do" > 
 	| <WHILE:"while" > 
-	| <WRITE:"system.out.println" > 
+	| <WRITE:"System.out.println" > 
 	| <READ:"ileer" > 
 }
 TOKEN:
@@ -85,16 +88,18 @@ TOKEN:
 
 TOKEN:
 {
-	  <INT:"int"> //44
-	| <DEC: "double"> //45
-	| <CHR: "Char"> //46
-	| <STR: "String"> //47
-	| <NUMBER : (["0"-"9"])+>  //48
-	| <IDENTIFIER : ["a"-"z","A"-"Z"](["a"-"z","A"-"Z","0"-"9","_"])*>  //49
-	| <DECIMAL : (["0"-"9"])+["."](["0"-"9"])+ > //50
-	| <CADENA : <DOUBLECOMMA>["a"-"z","A"-"Z","0"-"9"," "](["a"-"z","A"-"Z","0"-"9"," ",":",";","."])*<DOUBLECOMMA>> //51
-	| <CARAC : "'"["a"-"z","A"-"Z","0"-"9"]"'" >//52 
+	  <INT:"int"> 
+	| <DEC: "double"> 
+	| <CHR: "char"> 
+	| <STR: "String"> 
+	| <NUMBER : (["0"-"9"])+>  
+	| <IDENTIFIER : ["a"-"z","A"-"Z"](["a"-"z","A"-"Z","0"-"9","_"])* | ["a"-"z","A"-"Z"](["a"-"z","A"-"Z","0"-"9","_"])*"["<NUMBER>"]">  
+	| <DECIMAL : (["0"-"9"])+["."](["0"-"9"])+ > 
+	| <CADENA : <DOUBLECOMMA>["a"-"z","A"-"Z","0"-"9"," "](["a"-"z","A"-"Z","0"-"9"," ",":",";","."])*<DOUBLECOMMA>> 
+	| <CARAC : "'"["a"-"z","A"-"Z","0"-"9"]"'" >
 	| <DOUBLEPOINT : ":">
+        | <STRARRAY: "String[]">
+        | <STRING_LIST: "new String["<NUMBER>"]">
 }
 
 SKIP : 
@@ -105,7 +110,13 @@ SKIP :
 void Programa() :
 {}
 {
-	<PROGRAMA><IDENTIFIER><SEMICOLON>Bloque()<EOF>	
+	<PROGRAMA><IDENTIFIER><SEMICOLON> /*package*/
+        <PATH_LIB><SEMICOLON>/*import*/
+        <PUBLIC><CLASS><IDENTIFIER> /*class*/
+        <LBRACE>
+        Bloque()
+        <RBRACE>
+        <EOF>	
 }
 void Bloque():
 {}
@@ -116,7 +127,7 @@ void Bloque():
 void VariablesGlobales():
 {}
 {
-	(<PRIVATE>|<PUBLIC>)(<INT>|<DEC>|<STR>|<CHR>) <IDENTIFIER>(<COMMA><IDENTIFIER>)* <SEMICOLON> Bloque()
+	(<PRIVATE>|<PUBLIC>)(<INT>|<DEC>|<STR>|<CHR>|<STRARRAY>) <IDENTIFIER>(<COMMA><IDENTIFIER>)* <SEMICOLON> Bloque()
 }
 
 void Principal():
@@ -202,8 +213,8 @@ void Sentencias():
 {
 	(	
 	  VariablesLocales()	
-    | SentenciaIf() 	
-	| SentenciaFor()
+        | SentenciaIf() 
+	| SentenciaFor()        
 	| SentenciaDo()	
 	| LOOKAHEAD(2)SentenciaAsignacion()<SEMICOLON>{TokenAsignaciones.segunda = 0;}
 	| SentenciaWrite()
@@ -239,13 +250,13 @@ void Comparaciones():
 void Valor():
 {}
 {
-	LOOKAHEAD(2) (<IDENTIFIER> | <NUMBER>) | Expresion()
+	LOOKAHEAD(2) (<IDENTIFIER> | <NUMBER> | <DECIMAL>) | Expresion()
 }
 void Expresion():
 {}
 {
     LOOKAHEAD(2)(<NUMBER> | <IDENTIFIER>)
-	|(<IDENTIFIER>|<NUMBER>) OpAritmetico() (<IDENTIFIER>|<NUMBER>) 
+	|(<IDENTIFIER>|<NUMBER>|<DECIMAL>) OpAritmetico() (<IDENTIFIER>|<NUMBER>|<DECIMAL>) 
 }
 
 void Operadores():
@@ -277,6 +288,7 @@ void TiposDatos():
 	|<DEC>
 	|<STR>
 	|<CHR>
+        |<STRARRAY>
 }
 
 
@@ -284,7 +296,7 @@ void TiposDatos():
 void SentenciaFor():
 {}
 {
-	<FOR> <LPAREN>(DeclaracionUnaVariable()|SentenciaAsignacion())<SEMICOLON> Comparaciones() <SEMICOLON> SentenciaAsignacion() <RPAREN> <LBRACE> Sentencias() <RBRACE> 
+	<FOR> <LPAREN>(DeclaracionUnaVariable()|SentenciaAsignacion())((<SEMICOLON> Comparaciones() <SEMICOLON> SentenciaAsignacion()) | <DOUBLEPOINT> <IDENTIFIER>)<RPAREN> <LBRACE> Sentencias() <RBRACE> 
 }
 
 void DeclaracionUnaVariable():
@@ -308,7 +320,7 @@ void DeclaracionUnaVariable():
 void SentenciaDo():
 {}
 {
-	<DO> <LBRACE>Sentencias() <RBRACE> <WHILE> <LPAREN> Comparaciones() <RPAREN> | SentenciaWhile()
+	<DO> <LBRACE>Sentencias() <RBRACE> <WHILE> <LPAREN> Comparaciones() <RPAREN> <SEMICOLON> | SentenciaWhile()
 		
 }
 void SentenciaWhile():
@@ -371,6 +383,7 @@ void TiposAsignaciones():
 	| <DECIMAL> 
 	| <CADENA> 
 	| <CARAC>
+        | <STRING_LIST>
 }
 
 //Sentencia WRITE

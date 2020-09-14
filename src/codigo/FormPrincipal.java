@@ -435,19 +435,22 @@ public class FormPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         String ST = txtResultado.getText();
         
+        String errorMsg = "";
+        
         try {
             InputStream targetStream = new ByteArrayInputStream(ST.getBytes());
 
             comp analizador = new comp(targetStream);
-                    analizador.Principal();
+                    analizador.Programa();
                     txtAnalizadorSem.setText("... Analizador Semántico ha terminado.");
                     txtAnalizadorSem.setForeground(new Color(25, 111, 61));
             
                     System.out.println("\u005ctAnalizador Semántico ha terminado..");
             
         } catch (ParseException e) {
-                System.out.println(e.getMessage());
-                txtAnalizadorSem.setText(e.getMessage() + "... Analizador Semántico ha terminado.");
+                System.out.println(".. " + e.getMessage());
+                errorMsg = errorMsg + e.getMessage();
+                txtAnalizadorSem.setText(errorMsg);
                 txtAnalizadorSem.setForeground(Color.red);
                 System.out.println("\u005ctAnalizador Semántico ha terminado..");
         }

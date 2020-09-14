@@ -18,6 +18,8 @@ public class TokenAsignaciones {
 	  private static ArrayList<Integer> decComp = new ArrayList();
 	  private static ArrayList<Integer> strComp = new ArrayList();
 	  private static ArrayList<Integer> chrComp = new ArrayList();
+          
+          private static Hashtable arraySizes = new Hashtable();
 	  
 												//variable		//tipoDato
 	public static void InsertarSimbolo(Token identificador, int tipo)
@@ -34,19 +36,21 @@ public class TokenAsignaciones {
 		 cadena = strComp
 		 caracter = chrComp
 		*/
-		intComp.add(44);
-		intComp.add(48);
+		intComp.add(47);
+		intComp.add(51);
 		
-		decComp.add(44);
-		decComp.add(45);
+		decComp.add(47);
 		decComp.add(48);
-		decComp.add(50);
+		decComp.add(51);
+		decComp.add(53);
 		
-		chrComp.add(46);
-		chrComp.add(52);
+		chrComp.add(49);
+		chrComp.add(55);
 		
-		strComp.add(47);
-		strComp.add(51);
+		strComp.add(50);
+		strComp.add(54);
+                strComp.add(57);
+                strComp.add(58);
 	}
  
 	public static String checkAsing(Token TokenIzq, Token TokenAsig)
@@ -58,12 +62,17 @@ public class TokenAsignaciones {
 								asi como, si el token enviado es diferente a algun tipo que no se declara como los numeros(48), los decimales(50),
 								caracteres(52) y cadenas(51)
 								entonces tipoIdent1 = tipo_de_dato, ya que TokenAsig es un dato*/
-		if(TokenIzq.kind != 48 && TokenIzq.kind != 50)		
+		if(TokenIzq.kind != 51 && TokenIzq.kind != 53)		
 		{
 			try 
 			{
+                            if (TokenIzq.image.contains("[")) {
+                                String ide = TokenIzq.image.substring(0, TokenIzq.image.indexOf("["));
+                                tipoIdent1 = (Integer)tabla.get(ide);
+                            } else {
 				//Si el TokenIzq.image existe dentro de la tabla de tokens, entonces tipoIdent1 toma el tipo de dato con el que TokenIzq.image fue declarado
 				tipoIdent1 = (Integer)tabla.get(TokenIzq.image);	
+                            }
 			}
 			catch(Exception e)
 			{
@@ -75,13 +84,18 @@ public class TokenAsignaciones {
 			tipoIdent1 = 0;
 			
 		//TokenAsig.kind != 48 && TokenAsig.kind != 50 && TokenAsig.kind != 51 && TokenAsig.kind != 52
-		if(TokenAsig.kind == 49)	
+		if(TokenAsig.kind == 52)	
 		{
 			/*Si el tipo de dato que se esta asignando, es algun identificador(kind == 49) 
 			se obtiene su tipo de la tabla de tokens para poder hacer las comparaciones*/
 			try
 			{
+                            if (TokenIzq.image.contains("[")) {
+                                String ide = TokenIzq.image.substring(0, TokenIzq.image.indexOf("["));
+                                tipoIdent2 = (Integer)tabla.get(ide);
+                            } else {
 				tipoIdent2 = (Integer)tabla.get(TokenAsig.image);
+                            }    
 			}
 			catch(Exception e)
 			{
@@ -91,15 +105,19 @@ public class TokenAsignaciones {
 		}
 				//Si el dato es entero(48) o decimal(50) o caracter(51) o cadena(52)
 				//tipoIdent2 = tipo_del_dato
-		else if(TokenAsig.kind == 48 || TokenAsig.kind == 50 || TokenAsig.kind == 51 || TokenAsig.kind == 52)
+		else if(TokenAsig.kind == 51 || TokenAsig.kind == 53 || TokenAsig.kind == 54 || TokenAsig.kind == 55 || TokenAsig.kind == 58) {
 			tipoIdent2 = TokenAsig.kind;
-		else //Si no, se inicializa en algun valor "sin significado(con respecto a los tokens)", para que la variable este inicializada y no marque error al comparar
+                        if (TokenAsig.kind == 58) {
+                            String size = TokenAsig.image.substring((TokenAsig.image.indexOf("[")+1), (TokenAsig.image.length() - 1));
+                            arraySizes.put(TokenIzq.image, size);
+                        }
+                } else //Si no, se inicializa en algun valor "sin significado(con respecto a los tokens)", para que la variable este inicializada y no marque error al comparar
 			tipoIdent2 = 0; 
 
 			
 	  
 		
-		if(tipoIdent1 == 44) //Int
+		if(tipoIdent1 == 47) //Int
 		{
 			//Si la lista de enteros(intComp) contiene el valor de tipoIdent2, entonces es compatible y se puede hacer la asignacion
 			if(intComp.contains(tipoIdent2))
@@ -107,14 +125,14 @@ public class TokenAsignaciones {
 			else //Si el tipo de dato no es compatible manda el error
 				return "Error: No se puede convertir " + TokenAsig.image + " a Entero \r\nLinea: " + TokenIzq.beginLine;
 		}
-		else if(tipoIdent1 == 45) //double
+		else if(tipoIdent1 == 48) //double
 		{
 			if(decComp.contains(tipoIdent2))
 				return " ";
 			else
 				return "Error: No se puede convertir " + TokenAsig.image + " a Decimal \r\nLinea: " + TokenIzq.beginLine;
 		}
-		else if(tipoIdent1 == 46) //char
+		else if(tipoIdent1 == 49) //char
 		{
 			/*variable segunda: cuenta cuantos datos se van a asignar al caracter: 
 				si a el caracter se le asigna mas de un dato (ej: 'a' + 'b') marca error 
@@ -131,13 +149,29 @@ public class TokenAsignaciones {
 				return "Error: No se puede asignar mas de un valor a un caracter \r\nLinea: " + TokenIzq.beginLine;
 			
 		}
-		else if(tipoIdent1 == 47) //string
+		else if(tipoIdent1 == 50) //string
 		{
 			if(strComp.contains(tipoIdent2))
 				return " ";
 			else
 				return "Error: No se puede convertir " + TokenAsig.image + " a Cadena \r\nLinea: " + TokenIzq.beginLine;
-		}
+		} 
+                else if(tipoIdent1 == 57) // array string
+		{
+                    
+                    if (TokenIzq.image.contains("[")) {
+                        String currentSize = TokenIzq.image.substring((TokenIzq.image.indexOf("[")+1), (TokenIzq.image.length() -1));
+                        String globalSize = (String) arraySizes.get(TokenIzq.image.substring(0, TokenIzq.image.indexOf("[")));
+                        
+                        if (Integer.parseInt(currentSize) >= Integer.parseInt(globalSize)) {
+                            return "Error: la posicion de arreglo no existe: " + currentSize + ">=" + globalSize;
+                        }
+                    }
+                    if(strComp.contains(tipoIdent2))
+                            return " ";
+                    else
+                            return "Error: No se puede convertir " + TokenAsig.image + " a Cadena \r\nLinea: " + TokenIzq.beginLine;
+		} 
 		else
 		{
 			return "El Identificador " + TokenIzq.image + " no ha sido declarado" + " Linea: " + TokenIzq.beginLine;

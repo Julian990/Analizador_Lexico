@@ -29,95 +29,103 @@ public interface compConstants {
   /** RegularExpression Id. */
   int PRIVATE = 9;
   /** RegularExpression Id. */
-  int STATIC = 10;
+  int CLASS = 10;
   /** RegularExpression Id. */
-  int VOID = 11;
+  int IMPORT = 11;
   /** RegularExpression Id. */
-  int MAIN = 12;
+  int PATH_LIB = 12;
   /** RegularExpression Id. */
-  int PROGRAMA = 13;
+  int STATIC = 13;
   /** RegularExpression Id. */
-  int IF = 14;
+  int VOID = 14;
   /** RegularExpression Id. */
-  int ELSE = 15;
+  int MAIN = 15;
   /** RegularExpression Id. */
-  int ELSEIF = 16;
+  int PROGRAMA = 16;
   /** RegularExpression Id. */
-  int FOR = 17;
+  int IF = 17;
   /** RegularExpression Id. */
-  int SWITCH = 18;
+  int ELSE = 18;
   /** RegularExpression Id. */
-  int CASE = 19;
+  int ELSEIF = 19;
   /** RegularExpression Id. */
-  int BREAK = 20;
+  int FOR = 20;
   /** RegularExpression Id. */
-  int DEFAUL = 21;
+  int SWITCH = 21;
   /** RegularExpression Id. */
-  int DO = 22;
+  int CASE = 22;
   /** RegularExpression Id. */
-  int WHILE = 23;
+  int BREAK = 23;
   /** RegularExpression Id. */
-  int WRITE = 24;
+  int DEFAUL = 24;
   /** RegularExpression Id. */
-  int READ = 25;
+  int DO = 25;
   /** RegularExpression Id. */
-  int LPAREN = 26;
+  int WHILE = 26;
   /** RegularExpression Id. */
-  int RPAREN = 27;
+  int WRITE = 27;
   /** RegularExpression Id. */
-  int LBRACE = 28;
+  int READ = 28;
   /** RegularExpression Id. */
-  int RBRACE = 29;
+  int LPAREN = 29;
   /** RegularExpression Id. */
-  int LBRACKET = 30;
+  int RPAREN = 30;
   /** RegularExpression Id. */
-  int RBRACKET = 31;
+  int LBRACE = 31;
   /** RegularExpression Id. */
-  int SEMICOLON = 32;
+  int RBRACE = 32;
   /** RegularExpression Id. */
-  int COMMA = 33;
+  int LBRACKET = 33;
   /** RegularExpression Id. */
-  int DOT = 34;
+  int RBRACKET = 34;
   /** RegularExpression Id. */
-  int DOUBLECOMMA = 35;
+  int SEMICOLON = 35;
   /** RegularExpression Id. */
-  int EQ = 36;
+  int COMMA = 36;
   /** RegularExpression Id. */
-  int LE = 37;
+  int DOT = 37;
   /** RegularExpression Id. */
-  int MN = 38;
+  int DOUBLECOMMA = 38;
   /** RegularExpression Id. */
-  int GE = 39;
+  int EQ = 39;
   /** RegularExpression Id. */
-  int GR = 40;
+  int LE = 40;
   /** RegularExpression Id. */
-  int NE = 41;
+  int MN = 41;
   /** RegularExpression Id. */
-  int OR = 42;
+  int GE = 42;
   /** RegularExpression Id. */
-  int AND = 43;
+  int GR = 43;
   /** RegularExpression Id. */
-  int INT = 44;
+  int NE = 44;
   /** RegularExpression Id. */
-  int DEC = 45;
+  int OR = 45;
   /** RegularExpression Id. */
-  int CHR = 46;
+  int AND = 46;
   /** RegularExpression Id. */
-  int STR = 47;
+  int INT = 47;
   /** RegularExpression Id. */
-  int NUMBER = 48;
+  int DEC = 48;
   /** RegularExpression Id. */
-  int IDENTIFIER = 49;
+  int CHR = 49;
   /** RegularExpression Id. */
-  int DECIMAL = 50;
+  int STR = 50;
   /** RegularExpression Id. */
-  int CADENA = 51;
+  int NUMBER = 51;
   /** RegularExpression Id. */
-  int CARAC = 52;
+  int IDENTIFIER = 52;
   /** RegularExpression Id. */
-  int DOUBLEPOINT = 53;
-  
-  int  CLASS = 54;
+  int DECIMAL = 53;
+  /** RegularExpression Id. */
+  int CADENA = 54;
+  /** RegularExpression Id. */
+  int CARAC = 55;
+  /** RegularExpression Id. */
+  int DOUBLEPOINT = 56;
+  /** RegularExpression Id. */
+  int STRARRAY = 57;
+  /** RegularExpression Id. */
+  int STRING_LIST = 58;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -134,6 +142,9 @@ public interface compConstants {
     "\"--\"",
     "\"public\"",
     "\"private\"",
+    "\"class\"",
+    "\"import\"",
+    "<PATH_LIB>",
     "\"static\"",
     "\"void\"",
     "\"public static void main (String[] args)\"",
@@ -145,10 +156,10 @@ public interface compConstants {
     "\"switch\"",
     "\"case\"",
     "\"break\"",
-    "\"defaul\"",
+    "\"default\"",
     "\"do\"",
     "\"while\"",
-    "\"system.out.println\"",
+    "\"System.out.println\"",
     "\"ileer\"",
     "\"(\"",
     "\")\"",
@@ -170,7 +181,7 @@ public interface compConstants {
     "\"&&\"",
     "\"int\"",
     "\"double\"",
-    "\"Char\"",
+    "\"char\"",
     "\"String\"",
     "<NUMBER>",
     "<IDENTIFIER>",
@@ -178,7 +189,8 @@ public interface compConstants {
     "<CADENA>",
     "<CARAC>",
     "\":\"",
-    "\"class\"",
+    "\"String[]\"",
+    "<STRING_LIST>",
     "\" \"",
     "\"\\n\"",
     "\"\\r\"",
