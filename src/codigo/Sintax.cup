@@ -21,12 +21,14 @@ Void, Private, Main, Try, Catch, exception, Import, Punto, New, ERROR, Extends, 
 non terminal PROG, CLASS, PACKAGE_PATH, INICIO_CLASE, ASIGNACION, CONSTRUCTOR, INICIO_METODO, SENTENCIA, DECLARACION, DECLARACION_ASIGNACION, DECLARACION_FOR, IF, IF_ELSE,
     WHILE, DO_WHILE, FOR, SENTENCIA_BOOLEANA, SENTENCIA_FOR, ACCESO_METODO, PARAMETERS, METODO, PARAMETERS_A, EJEMPLO_1, INICIO_BLOQUE_TRY_CATCH, FINAL_BLOQUE_TRY_CATCH,
     OPERACION_ARITMETICA, EJEMPLO_2, IMPORT, PRINT, INSTANCIACION_CLASE, LLAMADO_METODO,
-    EJEMPLO_3, PARSE_DATA, ARGUMENTS, CLASE_PROFESOR;
+    EJEMPLO_3, PARSE_DATA, ARGUMENTS, CLASE_PROFESOR,
+    PARCIAL_3;
 
 start with PROG;
 
 PROG ::=
     CLASS | FOR | METODO | EJEMPLO_1 | EJEMPLO_2 | EJEMPLO_3 | CLASE_PROFESOR
+    | PARCIAL_3
 ;
 
 CLASS ::=
@@ -129,6 +131,25 @@ CLASE_PROFESOR ::=
     LlaveC
 ;
 
+PARCIAL_3 ::=
+    PACKAGE_PATH 
+    IMPORT
+    INICIO_CLASE
+    INICIO_METODO
+    FOR
+    DECLARACION
+    WHILE
+    DECLARACION
+    DO_WHILE
+    DECLARACION_ASIGNACION
+    DECLARACION_ASIGNACION
+    FOR
+    DECLARACION_ASIGNACION
+    DECLARACION_ASIGNACION
+    IF
+    IF_ELSE
+;
+
 PACKAGE_PATH ::=
     Package Identificador FinalLinea |
     Package Identificador Punto Identificador FinalLinea
@@ -186,7 +207,12 @@ ARGUMENTS ::=
 
 PRINT ::=
     Identificador Punto Identificador Punto Identificador
+    ParentecisA Identificador ParentecisC FinalLinea |
+    Identificador Punto Identificador Punto Identificador
     ParentecisA Comillas Identificador Identificador Identificador Identificador Comillas ParentecisC
+    FinalLinea |
+    Identificador Punto Identificador Punto Identificador
+    ParentecisA Comillas Identificador Identificador Comillas ParentecisC
     FinalLinea |
     Identificador Punto Identificador Punto Identificador
     ParentecisA Comillas Identificador Identificador Identificador Comillas
@@ -236,7 +262,8 @@ DECLARACION ::=
     string Identificador Asignacion Comillas Comillas FinalLinea |
     string Identificador Atribucion Comillas Identificador Comillas FinalLinea |
     string Identificador Asignacion Comillas Identificador Comillas FinalLinea |
-    ACCESO_METODO string Identificador FinalLinea
+    ACCESO_METODO string Identificador FinalLinea |
+    Identificador Incremento FinalLinea
 ;
 
 DECLARACION_ASIGNACION ::=
@@ -244,7 +271,9 @@ DECLARACION_ASIGNACION ::=
     TipoDato Identificador Asignacion OPERACION_ARITMETICA FinalLinea |
     TipoDato Identificador Asignacion Identificador Punto LLAMADO_METODO FinalLinea |
     TipoDato Identificador Asignacion PARSE_DATA FinalLinea |
-    This Punto Identificador Asignacion Identificador FinalLinea
+    This Punto Identificador Asignacion Identificador FinalLinea |
+    TipoDato CorcheteA CorcheteC Identificador Asignacion TipoDato CorcheteA Numero CorcheteC FinalLinea |
+    Identificador CorcheteA Numero CorcheteC Asignacion Comillas Identificador Comillas FinalLinea
 ;
 
 PARSE_DATA ::=
@@ -268,7 +297,9 @@ OPERACION_ARITMETICA ::=
     Numero OperadorAritmetico Identificador
 ;
 
-IF ::= If ParentecisA SENTENCIA_BOOLEANA ParentecisC LlaveA SENTENCIA LlaveC
+IF ::= 
+    If ParentecisA SENTENCIA_BOOLEANA ParentecisC LlaveA SENTENCIA LlaveC |
+    If ParentecisA SENTENCIA_BOOLEANA ParentecisC LlaveA OPERACION_ARITMETICA FinalLinea LlaveC
 ;
 
 SENTENCIA_BOOLEANA ::= 
@@ -280,16 +311,24 @@ SENTENCIA_BOOLEANA ::=
     Identificador Relacionales Comillas Identificador Comillas
 ;
 
-IF_ELSE ::= If ParentecisA SENTENCIA_BOOLEANA ParentecisC LlaveA SENTENCIA LlaveC Else LlaveA SENTENCIA LlaveC
+IF_ELSE ::= 
+    If ParentecisA SENTENCIA_BOOLEANA ParentecisC LlaveA SENTENCIA LlaveC Else LlaveA SENTENCIA LlaveC |
+    If ParentecisA SENTENCIA_BOOLEANA ParentecisC LlaveA OPERACION_ARITMETICA LlaveC Else LlaveA PRINT LlaveC
 ;
 
-WHILE ::= While ParentecisA SENTENCIA_BOOLEANA ParentecisC LlaveA SENTENCIA LlaveC
+WHILE ::= 
+    While ParentecisA SENTENCIA_BOOLEANA ParentecisC LlaveA SENTENCIA LlaveC |
+    While ParentecisA SENTENCIA_BOOLEANA ParentecisC LlaveA SENTENCIA PRINT LlaveC
 ;
 
-DO_WHILE ::= Do LlaveA SENTENCIA LlaveC While ParentecisA SENTENCIA_BOOLEANA ParentecisC FinalLinea
+DO_WHILE ::= 
+    Do LlaveA SENTENCIA LlaveC While ParentecisA SENTENCIA_BOOLEANA ParentecisC FinalLinea |
+    Do LlaveA SENTENCIA PRINT LlaveC While ParentecisA SENTENCIA_BOOLEANA ParentecisC FinalLinea
 ;
 
-FOR ::= For ParentecisA SENTENCIA_FOR ParentecisC LlaveA SENTENCIA LlaveC
+FOR ::= 
+    For ParentecisA SENTENCIA_FOR ParentecisC LlaveA SENTENCIA LlaveC |
+    For ParentecisA SENTENCIA_FOR ParentecisC LlaveA PRINT LlaveC
 ;
 
 SENTENCIA_FOR ::=
@@ -313,3 +352,5 @@ FINAL_BLOQUE_TRY_CATCH ::=
     ParentecisC LlaveA LlaveC
 ;
 
+SWITCH ::=
+;

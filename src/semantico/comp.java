@@ -4,8 +4,10 @@ package semantico;
 import java.io.*;
 import java.io.File;
 import java.util.Scanner;
+import javax.swing.JTextArea;
 public class comp implements compConstants {
 
+        public static JTextArea txtAnalizadorSem;
         public static void main( String[] args )throws ParseException, Exception
         {
             try
@@ -14,7 +16,7 @@ public class comp implements compConstants {
                     InputStream targetStream = new FileInputStream(initialFile);
 
                 comp analizador = new comp(targetStream);
-                        analizador.Programa();
+                        analizador.Programa(null);
                         System.out.println("\tAnalizador ha terminado.");
                 }
                 catch(ParseException e)
@@ -24,7 +26,10 @@ public class comp implements compConstants {
                 }
         }
 
-  static final public void Programa() throws ParseException {
+  static final public void Programa(JTextArea textArea) throws ParseException {
+     if (textArea != null ) {
+        txtAnalizadorSem = textArea;
+    }
     jj_consume_token(PROGRAMA);
     jj_consume_token(IDENTIFIER);
     jj_consume_token(SEMICOLON);
@@ -177,8 +182,11 @@ v2 = token;
 
                 if(res != " ")
                 {
-                        System.out.println(res);
-                        imp = true;
+                    System.out.println(res);
+                    imp = true;
+                    if (txtAnalizadorSem != null ) {
+                        txtAnalizadorSem.setText(txtAnalizadorSem.getText() + "\n" + res);
+                    }
                 }
     label_3:
     while (true) {
@@ -208,6 +216,9 @@ v3 = token;
                 if(res != " " && !imp)
                 {
                         System.out.println(res);
+                        if (txtAnalizadorSem != null ) {
+                            txtAnalizadorSem.setText(txtAnalizadorSem.getText() + "\n" + res);
+                        }
                 }
     }
 }
@@ -714,6 +725,9 @@ v2 = token;
         {
                 System.out.println(res);
                 imp = true;
+                if (txtAnalizadorSem != null ) {
+                    txtAnalizadorSem.setText(txtAnalizadorSem.getText() + "\n" + res);
+                }
         }
       label_7:
       while (true) {
@@ -730,6 +744,9 @@ v3 = token;
         if(res != " " && !imp)
         {
                 System.out.println(res);
+                if (txtAnalizadorSem != null ) {
+                    txtAnalizadorSem.setText(txtAnalizadorSem.getText() + "\n" + res);
+                }
         }
       }
       break;
@@ -754,6 +771,9 @@ res = TokenAsignaciones.checkVariable(v1);
 
         if(res != " ")
                 System.out.println(res);
+                if (txtAnalizadorSem != null ) {
+                    txtAnalizadorSem.setText(txtAnalizadorSem.getText() + "\n" + res);
+                }
       break;
       }
     default:

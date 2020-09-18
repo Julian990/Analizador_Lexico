@@ -441,8 +441,8 @@ public class FormPrincipal extends javax.swing.JFrame {
             InputStream targetStream = new ByteArrayInputStream(ST.getBytes());
 
             comp analizador = new comp(targetStream);
-                    analizador.Programa();
-                    txtAnalizadorSem.setText("... Analizador Semántico ha terminado.");
+                    analizador.Programa(txtAnalizadorSem);
+                    txtAnalizadorSem.setText(txtAnalizadorSem.getText() + "\n... Analizador Semántico ha terminado.");
                     txtAnalizadorSem.setForeground(new Color(25, 111, 61));
             
                     System.out.println("\u005ctAnalizador Semántico ha terminado..");
